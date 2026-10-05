@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+data/cifar10_official/
+checkpoints/
+*.npz
+logs/
