@@ -4,3 +4,5 @@ data/cifar10_official/
 checkpoints/
 *.npz
 logs/
+*.docx
+generate_docx.py
