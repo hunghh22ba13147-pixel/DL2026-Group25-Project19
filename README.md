@@ -23,7 +23,69 @@ Official source code and artifacts for the Final Project in Deep Learning (Acade
 
 ---
 
-## 1. Repository Structure
+## 1. End-to-End Project Pipeline
+
+The repository implements a fully automated, reproducible 5-stage pipeline for benchmarking class-conditional generative models against conventional augmentation under extreme class imbalance:
+
+```
+[Official CIFAR-10]
+        │
+        ▼ (Stage 1: src/data.py)
+┌────────────────────────────────────────────────────────────────────────┐
+│  • Train Set (LT, IR=100): 12,356 images [4,950 down to 50 / class]   │
+│  • Validation Set:           500 images [Disjoint, 50 / class]        │
+│  • Test Set:              10,000 images [Balanced, 1,000 / class]     │
+└───────────────────┬────────────────────────────────┬───────────────────┘
+                    │                                │
+                    ▼ (Stage 2: src/train_gan.py)    │
+┌──────────────────────────────────────────────┐     │
+│  Class-Conditional ResNet GAN                │     │
+│  • Spectral Normalization + Projection D     │     │
+│  • Differentiable Augmentation (DiffAugment) │     │
+│  • Class-Balanced Batch Sampler + EMA        │     │
+└───────────────────┬──────────────────────────┘     │
+                    │                                │
+                    ▼ (Stage 3: src/generate_synthetic.py)
+┌──────────────────────────────────────────────┐     │
+│  Synthetic Image Generation                  │     │
+│  • Pad tail classes up to threshold T        │     │
+│    (T = 1,000 or T = 5,000 images / class)   │     │
+└───────────────────┬──────────────────────────┘     │
+                    │                                │
+                    └────────────────┬───────────────┘
+                                     │
+                                     ▼ (Stage 4: src/train_classifier.py)
+┌────────────────────────────────────────────────────────────────────────┐
+│  Standardized ResNet-32 Benchmark (467K Parameters)                    │
+│  • Baseline (ERM)                  • Random Oversampling (ROS)         │
+│  • Conventional Aug (Crop/Flip)    • ROS + Conventional Aug            │
+│  • cGAN Synthetic (T=1000, 5000)   • cGAN Syn + Conv Aug (Hybrid)      │
+└────────────────────────────────────┬───────────────────────────────────┘
+                                     │
+                                     ▼ (Stage 5: src/aggregate.py & src/build_report.py)
+┌────────────────────────────────────────────────────────────────────────┐
+│  Evaluation, Diagnostic Metrics & Deliverables                         │
+│  • Balanced Accuracy, Macro-F1, Many / Medium / Few-shot Recall        │
+│  • Per-Class Recall Curves & Normalized Confusion Matrices             │
+│  • Automated PDF Report Compilation: Group25_Project19_Report.pdf      │
+└────────────────────────────────────────────────────────────────────────┘
+```
+
+### Pipeline Stage Details:
+1. **Stage 1 — Data Preparation & Deterministic Long-Tailed Induction (`src/data.py`):**
+   Downloads official CIFAR-10 and applies exponential decay ($IR=100$) following Cui et al. (CVPR 2019), creating a strictly isolated 12,356-image long-tailed training set, 500 balanced validation images, and 10,000 balanced test images.
+2. **Stage 2 — Class-Conditional Generative Modeling (`src/train_gan.py`):**
+   Trains a Spectral-Normalized ResNet cGAN with Projection Discriminator and DiffAugment strictly on the 12,356 training images (zero validation/test exposure) using class-balanced batch sampling and EMA.
+3. **Stage 3 — Synthetic Sampling & Dataset Balancing (`src/generate_synthetic.py`):**
+   Samples high-fidelity synthetic images from $G_{ema}$ to pad minority classes up to target cardinality thresholds ($T=1000$ and $T=5000$).
+4. **Stage 4 — Downstream Classifier Benchmarking (`src/train_classifier.py`, `src/run_experiments.py`):**
+   Optimizes ResNet-32 across all 6 baseline and countermeasure configurations over multiple random seeds ($s \in \{0, 1, 2\}$) under identical SGD and cosine annealing schedules.
+5. **Stage 5 — Statistical Aggregation & Report Generation (`src/aggregate.py`, `src/build_report.py`):**
+   Aggregates multi-seed metrics ($\mu \pm \sigma$), generates publication-quality figures (`figures/`), and compiles the complete 11-page examination report [`Group25_Project19_Report.pdf`](Group25_Project19_Report.pdf).
+
+---
+
+## 2. Repository Structure
 
 ```
 DL2026-Group25-Project19/
@@ -48,12 +110,12 @@ DL2026-Group25-Project19/
 
 ---
 
-## 2. Requirements & Installation
+## 3. Requirements & Installation
 
-Hardware requirement: NVIDIA GPU with CUDA support (tested on RTX 3050 Ti & Tesla T4).
+Hardware requirement: NVIDIA GPU with CUDA support (tested on RTX 3060 Laptop & CUDA 12.4).
 
 ```bash
-git clone https://github.com/YourOrg/DL2026-Group25-Project19.git
+git clone https://github.com/hunghh22ba13147-pixel/DL2026-Group25-Project19.git
 cd DL2026-Group25-Project19
 
 python -m venv .venv
@@ -63,7 +125,7 @@ pip install -r requirements.txt
 
 ---
 
-## 3. Step-by-Step Reproduction Guide
+## 4. Step-by-Step Reproduction Guide
 
 ### Step 1: Prepare Long-Tailed Dataset (CIFAR-10-LT, IR=100)
 Run the automated dataset builder. It will download the official CIFAR-10 dataset and apply the standard Cui et al. exponential decay profile:
@@ -103,7 +165,7 @@ Outputs will be generated in `results/summary.md` and `figures/`.
 
 ---
 
-## 4. Key Experimental Results (CIFAR-10-LT, IR=100)
+## 5. Key Experimental Results (CIFAR-10-LT, IR=100)
 
 Evaluated on the official balanced test set (10,000 images, 10 classes):
 
@@ -122,7 +184,8 @@ Evaluated on the official balanced test set (10,000 images, 10 classes):
 
 ---
 
-## 5. Artifacts and Links
+## 6. Artifacts and Deliverables
 - **Dataset Information**: See [DATA.md](DATA.md)
-- **Trained Generator Checkpoints & Synthetic Images**: [Google Drive / Hugging Face Link](https://drive.google.com/)
-- **Project Report**: `Group25_Project19_Report.pdf` (14 pages, formatted according to official template)
+- **Trained Generator Checkpoints & Synthetic Images**: Checkpoints stored under `checkpoints/cgan/G_ema.pt`
+- **Project Report**: [`Group25_Project19_Report.pdf`](Group25_Project19_Report.pdf) (11 pages, formatted according to official USTH rubric)
+
