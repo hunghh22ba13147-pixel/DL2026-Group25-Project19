@@ -14,12 +14,12 @@ Official source code and artifacts for the Final Project in Deep Learning (Acade
 | Member Name | Student ID | Email | Major | Role |
 |---|---|---|:---:|---|
 | **Hà Hiệp Hùng** | 22BA13147 | hunghh.22ba13147@usth.edu.vn | ICT | Project Leader, cGAN Architecture & DiffAugment |
-| **Trương Việt Hoàng** | 22BA13145 | hoangtv.22ba13145@usth.edu.vn | ICT | Pipeline Engineer, CIFAR-10-LT Builder |
+| **Trương Việt Hoàng** | 22BA13145 | hoangtv.22ba13145@usth.edu.vn | ICT | Augmentation Specialist, Geometric & ROS Benchmarks |
 | **Vũ Công Thành** | 22BA13290 | thanhvc.22ba13290@usth.edu.vn | ICT | Model Training, ResNet-32 Backbone & Optimizer |
-| **Vương Minh Tuấn** | 22BA13316 | tuanvm.22ba13316@usth.edu.vn | ICT | Augmentation Specialist, Geometric & ROS Benchmarks |
-| **Nguyễn Tiến Đạt** | 22BA13066 | datnt.22ba13066@usth.edu.vn | ICT | Generative Experiments, Synthetic Data Sampling |
-| **Nguyễn Trung Hiếu** | 22BA13138 | hieunt.22ba13138@usth.edu.vn | ICT | Evaluation & Diagnostics, Per-Class Recall & Confusion |
-| **Đặng Bình Dương** | 22BA13091 | duongdb.22ba13091@usth.edu.vn | DS | Data Science & Report, Statistical Aggregation & Documentation |
+| **Vương Minh Tuấn** | 22BA13316 | tuanvm.22ba13316@usth.edu.vn | ICT | Report & Documentation, Statistical Aggregation |
+| **Nguyễn Tiến Đạt** | 22BA13066 | datnt.22ba13066@usth.edu.vn | ICT | Report & Documentation, Statistical Aggregation |
+| **Nguyễn Trung Hiếu** | 22BA13138 | hieunt.22ba13138@usth.edu.vn | ICT | Generative Experiments, Synthetic Data Sampling |
+| **Đặng Bình Dương** | 22BA13091 | duongdb.22ba13091@usth.edu.vn | DS | Data Engineering & Pipeline Architecture |
 
 ---
 
