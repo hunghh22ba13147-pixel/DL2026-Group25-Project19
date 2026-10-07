@@ -112,7 +112,7 @@ DL2026-Group25-Project19/
 
 ## 3. Requirements & Installation
 
-Hardware requirement: NVIDIA GPU with CUDA support (tested on RTX 3060 Laptop & CUDA 12.4).
+Hardware requirement: NVIDIA GPU with CUDA support (tested on NVIDIA GeForce RTX 3050 Ti Laptop GPU & AMD Ryzen 7 6800H).
 
 ```bash
 git clone https://github.com/hunghh22ba13147-pixel/DL2026-Group25-Project19.git

@@ -427,7 +427,7 @@ def build_pdf(filename="Group25_Project19_Report.pdf"):
     story.append(Paragraph("6. Experimental Setup and Verification Protocol", h1_style))
     exp_p1 = (
         "To ensure absolute scientific rigor and reproducibility, all experiments were conducted within an identical computational environment. "
-        "Simulations were run on an NVIDIA GeForce RTX 3060 Laptop GPU with PyTorch 2.5.1 and CUDA 12.4. "
+        "Simulations were run on an NVIDIA GeForce RTX 3050 Ti Laptop GPU with PyTorch and CUDA. "
         "All stochastic processes—including dataset indexing, batch shuffling, network weight initialization (He normal initialization), "
         "and data augmentation pipelines—were governed by fixed random seeds (Seeds 0, 1, and 2)."
     )
@@ -749,10 +749,10 @@ def build_pdf(filename="Group25_Project19_Report.pdf"):
 
     app_data = [
         ["System Component", "Hardware / Software Specification", "Role in Benchmark"],
-        ["GPU Accelerator", "NVIDIA GeForce RTX 3060 Laptop (6GB VRAM, Ampere)", "cGAN & ResNet-32 CUDA Execution"],
-        ["CPU & RAM", "Intel Core i7-12700H (14 cores, 20 threads) / 32GB RAM", "Data Pipeline, Resampling & Image I/O"],
-        ["Deep Learning Engine", "PyTorch 2.5.1 + CUDA 12.4 + cuDNN 90100", "Neural Optimization & Tensor Operations"],
-        ["Host Operating System", "Microsoft Windows 11 Enterprise (64-bit)", "Execution Host Platform"],
+        ["GPU Accelerator", "NVIDIA GeForce RTX 3050 Ti Laptop GPU (4GB VRAM)", "cGAN & ResNet-32 CUDA Execution"],
+        ["CPU & RAM", "AMD Ryzen 7 6800H (8 cores, 16 threads) / 16GB RAM", "Data Pipeline, Resampling & Image I/O"],
+        ["Deep Learning Engine", "PyTorch (CUDA Enabled) + torchvision", "Neural Optimization & Tensor Operations"],
+        ["Host Operating System", "Microsoft Windows 11 (64-bit)", "Execution Host Platform"],
         ["Reproduction Command", "python src/run_experiments.py --device cuda", "Runs End-to-End Benchmark (Seeds 0, 1, 2)"],
         ["Report Generation", "python src/build_report.py Group25_Project19_Report.pdf", "Compiles Complete 11-Page PDF Report"]
     ]
